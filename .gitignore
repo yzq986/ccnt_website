@@ -58,7 +58,7 @@ cover/
 # Django stuff:
 *.log
 local_settings.py
-db.sqlite3
+# db.sqlite3
 db.sqlite3-journal
 
 # Flask stuff:
@@ -163,3 +163,4 @@ cython_debug/
 *.csv
 sqlite3
 
+https://oath2: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@github.com/yzq986/ccnt_website.git
