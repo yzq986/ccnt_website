@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>ccnt-全国</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script
+      type="text/javascript"
+      src="https://assets.pyecharts.org/assets/v5/echarts.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://assets.pyecharts.org/assets/v5/maps/china.js"
+    ></script>
+  </head>
+  <body>
+    <div class="grid grid-cols-2">
+    <div
+      id="china"
+      class="chart-container"
+      style="width: 800px; height: 800px"
+    ></div>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    
+    <div>
+    {% if page_obj %}
+      <div class="mt-6">
+      <table id="data-table" class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+          <tr>
+            {% for column in columns %}
+            <th
+              scope="col"
+              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+            >
+              {{ column }}
+            </th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+          {% for data in page_obj %}
+          <tr>
+            {% comment %} {% for key, value in data.items %} {% endcomment %}
+            <td class="px-2 py-1 whitespace-nowrap"> <a href={{ data.link }}> {{ data.file_name }} </td>
+            <td class="px-2 py-1 whitespace-nowrap"> {{ data.date_published }} / {{ data.month_published }} </td>
+            {% comment %} {% endfor %} {% endcomment %}
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+      {# 分页链接 #}
+      {% if is_paginated %}
+        <ul class="pagination">
+        {% if page_obj.has_previous %}
+          <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+        {% else %}
+          <li class="page-item disabled"><span class="page-link">Previous</span></li>
+        {% endif %}
+    
+        {% for i in page_obj.paginator.page_range %}
+            {% if page_obj.number == i %}
+          <li class="page-item active"><span class="page-link"> {{ i }} <span class="sr-only">(current)</span></span></li>
+          {% else %}
+            <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+          {% endif %}
+        {% endfor %}
+    
+          {% if page_obj.has_next %}
+          <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
+        {% else %}
+          <li class="page-item disabled"><span class="page-link">Next</span></li>
+        {% endif %}
+        </ul>
+        {% endif %}
+    
+    {% else %}
+    {# 注释: 这里可以写自己的句子 #}
+    {% endif %}
+      </div>
+    </div>
+    <script>
+      var chart_china = echarts.init(
+        document.getElementById("china"),
+        "white",
+        { renderer: "canvas" }
+      );
+
+      chart_china.on("click", function (params) {
+        // alert(params.name);
+        window.open("province/" + params.name, "_self");
+      });
+      var map_data = {{ map_data|safe }};
+      var option_china = {
+        animation: true,
+        animationThreshold: 2000,
+        animationDuration: 1000,
+        animationEasing: "cubicOut",
+        animationDelay: 0,
+        animationDurationUpdate: 300,
+        animationEasingUpdate: "cubicOut",
+        animationDelayUpdate: 0,
+        aria: {
+          enabled: false,
+        },
+        color: [
+          "#5470c6",
+          "#91cc75",
+          "#fac858",
+          "#ee6666",
+          "#73c0de",
+          "#3ba272",
+          "#fc8452",
+          "#9a60b4",
+          "#ea7ccc",
+        ],
+        series: [
+          {
+            type: "map",
+            name: "ccnt_count",
+            label: {
+              show: true,
+              margin: 8,
+            },
+            map: "china",
+            data : map_data,
+            roam: "move",
+            aspectScale: 0.75,
+            nameProperty: "name",
+            selectedMode: false,
+            zoom: 1,
+            zlevel: 0,
+            z: 2,
+            seriesLayoutBy: "column",
+            datasetIndex: 0,
+            mapValueCalculation: "sum",
+            showLegendSymbol: true,
+            emphasis: {},
+            rippleEffect: {
+              show: true,
+              brushType: "stroke",
+              scale: 2.5,
+              period: 4,
+            },
+          },
+        ],
+        legend: [
+          {
+            data: ["ccnt_count"],
+            selected: {},
+            show: true,
+            padding: 5,
+            itemGap: 10,
+            itemWidth: 25,
+            itemHeight: 14,
+            backgroundColor: "transparent",
+            borderColor: "#ccc",
+            borderWidth: 1,
+            borderRadius: 0,
+            pageButtonItemGap: 5,
+            pageButtonPosition: "end",
+            pageFormatter: "{current}/{total}",
+            pageIconColor: "#2f4554",
+            pageIconInactiveColor: "#aaa",
+            pageIconSize: 15,
+            animationDurationUpdate: 800,
+            selector: false,
+            selectorPosition: "auto",
+            selectorItemGap: 7,
+            selectorButtonGap: 10,
+          },
+        ],
+        tooltip: {
+          show: true,
+          trigger: "item",
+          triggerOn: "mousemove|click",
+          axisPointer: {
+            type: "line",
+          },
+          showContent: true,
+          alwaysShowContent: false,
+          showDelay: 0,
+          hideDelay: 100,
+          enterable: false,
+          confine: false,
+          appendToBody: false,
+          transitionDuration: 0.4,
+          textStyle: {
+            fontSize: 14,
+          },
+          borderWidth: 0,
+          padding: 5,
+          order: "seriesAsc",
+        },
+        title: [
+          {
+            show: true,
+            text: "ccnt-\u5168\u56fd",
+            target: "blank",
+            subtarget: "blank",
+            padding: 5,
+            itemGap: 10,
+            textAlign: "auto",
+            textVerticalAlign: "auto",
+            triggerEvent: false,
+          },
+        ],
+        toolbox: {
+          show: true,
+          orient: "vertical",
+          itemSize: 30,
+          itemGap: 10,
+          left: "80%",
+          bottom: "0%",
+          feature: {
+            myPlus: {
+              show: "true",
+              title: "Zoom In",
+              icon: "path://M13.388,9.624h-3.011v-3.01c0-0.208-0.168-0.377-0.376-0.377S9.624,6.405,9.624,6.613v3.01H6.613c-0.208,0-0.376,0.168-0.376,0.376s0.168,0.376,0.376,0.376h3.011v3.01c0,0.208,0.168,0.378,0.376,0.378s0.376-0.17,0.376-0.378v-3.01h3.011c0.207,0,0.377-0.168,0.377-0.376S13.595,9.624,13.388,9.624z M10,1.344c-4.781,0-8.656,3.875-8.656,8.656c0,4.781,3.875,8.656,8.656,8.656c4.781,0,8.656-3.875,8.656-8.656C18.656,5.219,14.781,1.344,10,1.344z M10,17.903c-4.365,0-7.904-3.538-7.904-7.903S5.635,2.096,10,2.096S17.903,5.635,17.903,10S14.365,17.903,10,17.903z",
+              onclick: function () {
+                option_china.series[0].zoom *= 1.2;
+                chart_china.setOption(option_china);
+              },
+            },
+            myMinus: {
+              show: "true",
+              title: "Zoom Out",
+              icon: "M10,1.344c-4.781,0-8.656,3.875-8.656,8.656c0,4.781,3.875,8.656,8.656,8.656c4.781,0,8.656-3.875,8.656-8.656C18.656,5.219,14.781,1.344,10,1.344z M10,17.903c-4.365,0-7.904-3.538-7.904-7.903S5.635,2.096,10,2.096S17.903,5.635,17.903,10S14.365,17.903,10,17.903z M13.388,9.624H6.613c-0.208,0-0.376,0.168-0.376,0.376s0.168,0.376,0.376,0.376h6.775c0.207,0,0.377-0.168,0.377-0.376S13.595,9.624,13.388,9.624z",
+              onclick: function () {
+                option_china.series[0].zoom /= 1.2;
+                chart_china.setOption(option_china);
+              },
+            },
+            myInfo: {
+              show: "true",
+              title: "\u5f53\u524d\u89c6\u56fe\u5171743\u6570\u636e",
+              icon: "M16.588,3.411h-4.466c0.042-0.116,0.074-0.236,0.074-0.366c0-0.606-0.492-1.098-1.099-1.098H8.901c-0.607,0-1.098,0.492-1.098,1.098c0,0.13,0.033,0.25,0.074,0.366H3.41c-0.606,0-1.098,0.492-1.098,1.098c0,0.607,0.492,1.098,1.098,1.098h0.366V16.59c0,0.808,0.655,1.464,1.464,1.464h9.517c0.809,0,1.466-0.656,1.466-1.464V5.607h0.364c0.607,0,1.1-0.491,1.1-1.098C17.688,3.903,17.195,3.411,16.588,3.411z M8.901,2.679h2.196c0.202,0,0.366,0.164,0.366,0.366S11.3,3.411,11.098,3.411H8.901c-0.203,0-0.366-0.164-0.366-0.366S8.699,2.679,8.901,2.679z M15.491,16.59c0,0.405-0.329,0.731-0.733,0.731H5.241c-0.404,0-0.732-0.326-0.732-0.731V5.607h10.983V16.59z M16.588,4.875H3.41c-0.203,0-0.366-0.164-0.366-0.366S3.208,4.143,3.41,4.143h13.178c0.202,0,0.367,0.164,0.367,0.366S16.79,4.875,16.588,4.875zM6.705,14.027h6.589c0.202,0,0.366-0.164,0.366-0.366s-0.164-0.367-0.366-0.367H6.705c-0.203,0-0.366,0.165-0.366,0.367S6.502,14.027,6.705,14.027z M6.705,11.83h6.589c0.202,0,0.366-0.164,0.366-0.365c0-0.203-0.164-0.367-0.366-0.367H6.705c-0.203,0-0.366,0.164-0.366,0.367C6.339,11.666,6.502,11.83,6.705,11.83z M6.705,9.634h6.589c0.202,0,0.366-0.164,0.366-0.366c0-0.202-0.164-0.366-0.366-0.366H6.705c-0.203,0-0.366,0.164-0.366,0.366C6.339,9.47,6.502,9.634,6.705,9.634z",
+              onclick: function () {
+                window.open("/table", "_blank").focus();
+              },
+            },
+          },
+        },
+        visualMap: {
+          show: true,
+          type: "continuous",
+          min: 0,
+          max: 50,
+          inRange: {
+            color: ["#ff6b00", "#00ff00"],
+          },
+          calculable: true,
+          inverse: false,
+          splitNumber: 5,
+          hoverLink: true,
+          orient: "vertical",
+          padding: 5,
+          showLabel: true,
+          itemWidth: 20,
+          itemHeight: 140,
+          borderWidth: 0,
+        },
+      };
+      chart_china.setOption(option_china);
+    </script>
+  </body>
+</html>
+
+
+
