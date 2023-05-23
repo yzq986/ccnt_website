@@ -1,0 +1,10 @@
+{% extends "./china.html" %}
+{% block map_js %} <script type="text/javascript" src={{ province_en_url|safe }}></script> {% endblock map_js %}
+{% block map_type %}
+    var map_type = {{ province|safe }}
+    chart.on("click", function (params) {
+        url = new URL(window.location);
+        url.searchParams.set('municipality', params.name);
+        window.open(url, "_self");
+    });
+{% endblock map_type %}
