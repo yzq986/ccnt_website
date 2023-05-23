@@ -99,10 +99,61 @@
 
       {% block map_type %}
         var map_type = "china";
+                const flip = (data) => Object.fromEntries(
+  Object
+    .entries(data)
+    .map(([key, value]) => [value, key])
+  );
+        const province_cn_to_en = {
+"北京市": "Beijing",
+"天津市": "Tianjin",
+"河北省": "Hebei",
+"山西省": "Shanxi",
+"内蒙古自治区": "Inner Mongolia",
+"辽宁省": "Liaoning",
+"吉林省": "Jilin",
+"黑龙江省": "Heilongjiang",
+"上海市": "Shanghai",
+"江苏省": "Jiangsu",
+"浙江省": "Zhejiang",
+"安徽省": "Anhui",
+"福建省": "Fujian",
+"江西省": "Jiangxi",
+"山东省": "Shandong",
+"河南省": "Henan",
+"湖北省": "Hubei",
+"湖南省": "Hunan",
+"广东省": "Guangdong",
+"广西壮族自治区": "Guangxi",
+"海南省": "Hainan",
+"重庆市": "Chongqing",
+"四川省": "Sichuan",
+"贵州省": "Guizhou",
+"云南省": "Yunnan",
+"西藏自治区": "Tibet",
+"陕西省": "Shaanxi",
+"甘肃省": "Gansu",
+"青海省": "Qinghai",
+"宁夏回族自治区": "Ningxia",
+"新疆维吾尔自治区": "Xinjiang",
+"台湾省": "Taiwan",
+"香港特别行政区": "Hong Kong",
+"澳门特别行政区": "Macau",
+"南海诸岛": "South China Sea Islands"
+};
+        const province_en_to_cn = flip(province_cn_to_en);
+        map_data = map_data.map(function (item) {
+          return {
+            name: province_cn_to_en[item.name],
+            value: item.value,
+          };
+        });
+
         chart.on("click", function (params) {
         // alert(params.name);
-          window.open("province/?province=" + params.name, "_self");
+          window.open("province/?province=" + province_en_to_cn[params.name], "_self");
         });
+
       {% endblock map_type %}
 
       var option = {
@@ -132,6 +183,9 @@
           {
             type: "map",
             name: "sino3060_count",
+            {% block nameMap %}
+            nameMap: province_cn_to_en,
+            {% endblock nameMap %}
             label: {
               show: true,
               margin: 8,
@@ -209,7 +263,7 @@
         title: [
           {
             show: true,
-            text: "sino3060-\u5168\u56fd",
+            text: "sino3060_data",
             target: "blank",
             subtarget: "blank",
             padding: 5,
