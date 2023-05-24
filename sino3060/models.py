@@ -27,4 +27,4 @@ class Data(models.Model):
     invalid_link = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.file_name_en
+        return f"{self.file_name_en}({self.file_name})"
