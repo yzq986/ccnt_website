@@ -50,7 +50,7 @@ Jiangsu: Changzhou, Huaian, Lianyungang, Nanjing, Nantong, Suzhou, Suqian, Taizh
 Jiangxi: Fuzhou, Ganzhou, Ji'an, Jingdezhen, Jiujiang, Nanchang, Pingxiang, Shangrao, Xinyu, Yichun, Yingtan
 Liaoning: Anshan, Benxi, Dalian, Dandong, Fushun, Fuxin, Huludao, Jinzhou, Liaoyang, Panjin, Shenyang, Tieling, Yingkou, Chaoyang
 Inner Mongolia: Alxa League, Bayannaoer, Baotou, Chifeng, Ordos, Hohhot, Hulunbuir, Tongliao, Wuhai, Ulanqab, Xilin Gol League, Xing'an League
-Ningxia Hui: Guyuan, Shizuishan, Wuzhong, Yinchuan, Zhongwei
+Ningxia: Guyuan, Shizuishan, Wuzhong, Yinchuan, Zhongwei
 Qinghai: Guoluo Tibetan Autonomous Prefecture, Haibei Tibetan Autonomous Prefecture, Haidong, Hainan Tibetan Autonomous Prefecture, Haixi Mongolian Tibetan Autonomous Prefecture, Huangnan Tibetan Autonomous Prefecture, Xining, Yushu Tibetan Autonomous Prefecture
 Shandong: Binzhou, Dezhou, Dongying, Heze, Jinan, Jining, Laiwu, Liaocheng, Linyi, Qingdao, Rizhao, Tai'an, Weihai, Weifang, Yantai, Zaozhuang, Zibo
 Shanxi: Changzhi, Datong, Jincheng, Jinzhong, Linfen, Luliang, Shuozhou, Taiyuan, Xinzhou, Yangquan, Yuncheng
@@ -86,12 +86,12 @@ for line, line_en in zip(data.split("\n"), data_en.split("\n")):
             city2province[city] = province
             city_cn2en[city] = city_en
 
-print(province2cities)
-print(city2province)
-print(province_cn2en)
-print(city_cn2en)
+# print(province2cities)
+# print(city2province)
+# print(province_cn2en)
+# print(city_cn2en)
 
 city_cn2en_ = city_cn2en.copy()
 for k, v in city_cn2en.items():
     city_cn2en_[k] = v + '(' + k + ')'
-print(city_cn2en_)
+# print(city_cn2en_)

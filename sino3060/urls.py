@@ -1,3 +1,4 @@
+
 from django.urls import path
 from django.shortcuts import redirect
 
@@ -10,8 +11,6 @@ urlpatterns = [
     # path('province/<str:province>/<str:municipality>', views.ProvinceView.as_view(), name='municipality'),
     path('province/', views.ProvinceView.as_view(), name='province'),
 
-    path('set_media', views.set_media, name='set_media'),
+    path('set_all_media', views.set_all_media, name='set_all_media'),
     path('get_data_from_feed', views.get_data_from_feed, name='get_data_from_feed'),
-
-    # path('', views.index, name='index'),
 ]

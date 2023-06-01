@@ -4,7 +4,7 @@
     var map_type = {{ province|safe }}
     chart.on("click", function (params) {
         url = new URL(window.location);
-        url.searchParams.set('municipality', params.name);
-        window.open(url, "_self");
+        url.searchParams.set('municipality', en_to_cn[params.name]);
+        window.open(url);
     });
 {% endblock map_type %}
