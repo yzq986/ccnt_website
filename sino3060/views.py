@@ -19,11 +19,15 @@ DEEPL_API = "b953cf0e-4320-da53-93fc-da67f7efc047:fx"
 def set_all_media(request):
     browser = Browser()
     for data in Data.objects.filter(verified=True, display=True).all()[::-1]:
-        if data.link:
+        if os.path.exists(f'sino3060/static/sino3060/{data.id}.pdf'):
+            data.link_pdf = f'sino3060/{data.id}.pdf'
+            data.save()
+        elif data.link:
             filename = browser.save(data.link, data.id)
             # data.link_image = filename + '.png'
             data.link_pdf = filename + '.pdf'
             data.save()
+    return HttpResponse("Success")
 
 def get_data_from_feed(request):
     import feedparser
