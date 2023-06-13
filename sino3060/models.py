@@ -23,7 +23,8 @@ class Data(models.Model):
     # municipality = models.CharField(max_length=50, choices=[('', '')] + [(x, x) for x in city_cn2en.keys()], default=0)
     municipality = models.CharField(max_length=50, blank=True, verbose_name="市 / 直辖市区")
     
-    link_pdf = models.FileField(null=True, blank=True, upload_to='static/sino3060/', default=None)
+    # link_pdf = models.FileField(null=True, blank=True, upload_to='static/sino3060/', default=None)
+    link_pdf = models.URLField(max_length=255, blank=True)
 
     verified = models.BooleanField(default=False)
     display = models.BooleanField(default=False)

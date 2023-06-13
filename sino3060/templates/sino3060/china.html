@@ -43,7 +43,7 @@
             {% comment %} {% for key, value in data.items %} {% endcomment %}
                     <div class="table-cell">
               {% comment %} <a href="{% static data.link_image %}"> <img src="https://img.icons8.com/ios-glyphs/30/null/screenshot.png"/> </a> {% endcomment %}
-                      <a class="inline-flex" href="{% static data.link_pdf %}">
+                      <a class="inline-flex" href="{{ data.link_pdf }}">
                         <img src="https://img.icons8.com/ios-glyphs/30/null/pdf.png"/>
                 {% comment %} {{ data.link_pdf }}  {% endcomment %}
                       </a>

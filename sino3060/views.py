@@ -71,7 +71,6 @@ def get_data_from_feed(request):
         municipality_en = city_cn2en[municipality] if municipality in city_cn2en else ""
 
         note = ""
-        invalid_link = False
 
         data = Data(
             file_name_en=file_name_en,
@@ -91,8 +90,6 @@ def get_data_from_feed(request):
             country=country,
             province=province,
             municipality=municipality,
-
-            invalid_link=invalid_link,
         )
         data.save()
 
